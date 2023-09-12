@@ -38,7 +38,7 @@ func (d *DB) AddBalance(ctx context.Context, uid uuid.UUID, sum int64) error {
 	VALUES ($1, $2)
 	ON CONFLICT (uid)
 	DO UPDATE
-	SET balance = balance.amount + $2
+	SET balance = balance.balance + $2
 	WHERE balance.uid = $1
 `
 	_, err := d.db.ExecContext(ctx, q, uid, sum)

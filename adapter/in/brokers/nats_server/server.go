@@ -24,7 +24,7 @@ func New(conn *nats.Conn, tr model.ITransaction, logger model.ILogger) (*Server,
 	}, nil
 }
 func (s *Server) Run(ctx context.Context) error {
-	sb, err := s.conn.Subscribe(servicePrefix+".*", s.handler)
+	sb, err := s.conn.Subscribe(servicePrefix+".*.*", s.handler)
 	if err != nil {
 		return fmt.Errorf("conn.Subscribe: %w", err)
 	}
@@ -38,7 +38,7 @@ func (s *Server) Run(ctx context.Context) error {
 func (s *Server) handler(msg *nats.Msg) {
 	topic := new(subject)
 	err := topic.parse(msg.Subject)
-	resp := response{
+	resp := respMessage{
 		Type: successMessage,
 	}
 	if err != nil {
@@ -69,7 +69,7 @@ func (s *Server) handler(msg *nats.Msg) {
 	}
 }
 
-func (s *Server) sendMessage(msg *nats.Msg, data response) error {
+func (s *Server) sendMessage(msg *nats.Msg, data respMessage) error {
 	body, err := json.Marshal(data)
 	if err != nil {
 		return fmt.Errorf("json.Marshal: %w", err)

@@ -39,7 +39,7 @@ func (t *subject) parse(topic string) error {
 	return nil
 }
 
-type response struct {
-	Type    messageType
-	Payload interface{}
+type respMessage struct {
+	Type    messageType `json:"type"`
+	Payload interface{} `json:"payload"`
 }
