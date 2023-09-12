@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "adapter/in/web/grpc_server/api";
+
+//    git clone https://github.com/googleapis/googleapis ./adapter/in/web/grpc_server/api/googleapi
+//    ...
+//    protoc -I ./adapter/in/web/grpc_server/api/googleapi -I ./adapter/in/web/grpc_server/api/proto --include_imports \
+//    --descriptor_set_out=./deploy/proto/transaction.pb transaction.proto
+import "google/api/annotations.proto";
+
+service Transaction {
+  rpc BalanceUp(BalanceRequest) returns (BalanceResponse) {
+    option (google.api.http) = {
+      post: "/transaction/up"
+    };
+  }
+  rpc BalanceDown(BalanceRequest) returns (BalanceResponse) {
+    option (google.api.http) = {
+      post: "/transaction/down"
+    };
+  }
+}
+
+
+message BalanceRequest {
+  uint64 amount = 1;
+}
+
+message BalanceResponse {
+  bool success = 1;
+  string message = 2;
+}
+
