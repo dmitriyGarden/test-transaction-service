@@ -63,6 +63,7 @@ func (s *Server) handler(msg *nats.Msg) {
 		resp.Type = errorMessage
 		resp.Payload = fmt.Sprintf("Unexpected method: %s", topic.method)
 	}
+	s.l.Debug("Response: ", resp)
 	err = s.sendMessage(msg, resp)
 	if err != nil {
 		s.l.Error("sendMessage: ", err)

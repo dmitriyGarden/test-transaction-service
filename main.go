@@ -23,10 +23,12 @@ func main() {
 	if err != nil {
 		l.Fatal("pgres.New: ", err)
 	}
+
 	trService, err := service.New(cfg, storage)
 	if err != nil {
 		l.Fatal("service.New: ", err)
 	}
+
 	conn, err := nats.Connect(cfg.NatsConnectionString())
 	if err != nil {
 		l.Fatal("nats.Connect: ", err)
