@@ -1,0 +1,2 @@
+listen: ":8080"
+migration_path: "./migrations/source"
